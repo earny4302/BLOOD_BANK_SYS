@@ -6,7 +6,7 @@ class recipient;
 int cal_A_pos()
 {
     int a;
-    for(int i=0)
+    
 }
 int cal_A_neg()
 {
@@ -49,9 +49,6 @@ void dashboard()
     AB_neg=cal_AB_neg();
     O_pos=cal_O_pos();
     O_neg=cal_O_neg();
-
-
-
 }
 class donor
 {
@@ -69,6 +66,10 @@ class donor
     friend void dashboard();
     void get_detail();
 };
+void donor::get_detail()
+{
+
+}
 class recipient
 {
     int no;
@@ -83,10 +84,13 @@ class recipient
     int amount_ml;
     public:
     friend void dashboard();
+    void get_detail();
 };
 
-int check_criteria()
+int check_criteria_donor()
 {
+    int 
+    cout<<"\nWHAT IS YOUR AGE:-";
 
 }
 int main()
@@ -101,7 +105,7 @@ int main()
         switch (choice)
         {
             case 1:
-            int x= check_criteria();
+            int x=check_criteria_donor();
             if(x==1)
                 
             break;
