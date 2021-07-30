@@ -99,15 +99,42 @@ class recipient
 
 int check_criteria_donor()
 {
-    int age;
-    cout<<"\nWHAT IS YOUR AGE:-";
-
+    int age,weight,hemo,fit,STD;
+    do{
+        cout<<"\nIS YOUR AGE IS BETWEEN 18 YEARS AND 65 YEARS:-(1-YES,2-NO)\t";
+        cin>>age;
+    }while(age!=0&&age!=1);
+    do{
+        cout<<"\nIS YOUR WEIGHT MORE THAN 50 KG:-(1-YES,2-NO)\t";
+        cin>>weight;
+    }while(weight!=0&&weight!=1);
+    do{
+        cout<<"\nIS YOUR HEMOGLOBIN IS GREATER THAN 12 g/dl:-(1-YES,2-NO)\t";
+        cin>>hemo;
+    }while(hemo!=0&&hemo!=1);
+    do{
+        cout<<"\nARE YOU FIT:-(1-YES,2-NO)\t";
+        cin>>fit;
+    }while(fit!=0&&fit!=1);
+    do{
+        cout<<"\nEVER CONTRACTED ANY STD:-(1-YES,2-NO)\t";
+        cin>>STD;
+    }while(STD!=0&&STD!=1);
+    if(age==1 && weight==1 && hemo==1 &&  fit==1 && STD==0)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
 }
 int main()
 {
     int choice;
     do
     {
+        vector<donor*> don;
         system("CLS");
         dashboard();
         cout<<"\nHOW CAN WE HELP YOU?";
@@ -119,6 +146,8 @@ int main()
             if(x==1)
             {
                 donor *d=new donor();
+                d->get_detail();
+                don.push_back(d);
             }
                 
             break;
