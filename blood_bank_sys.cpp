@@ -68,7 +68,17 @@ class donor
 };
 void donor::get_detail()
 {
+    int no;
+    string name;
+    string address;
+    long int mobile_no;
+    long int addhar;
+    int day;
+    int month;
+    int year;
+    string blood_type;
 
+    int amount_ml;
 }
 class recipient
 {
@@ -89,7 +99,7 @@ class recipient
 
 int check_criteria_donor()
 {
-    int 
+    int age;
     cout<<"\nWHAT IS YOUR AGE:-";
 
 }
@@ -107,10 +117,17 @@ int main()
             case 1:
             int x=check_criteria_donor();
             if(x==1)
+            {
+                donor *d=new donor();
+            }
                 
             break;
+            case 2:
+
         
         default:
+            cout<<"\nWRONG CHOICE";
+            getch();
             break;
         }
         
