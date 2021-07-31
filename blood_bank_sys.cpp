@@ -3,8 +3,7 @@
 #include<vector>
 using namespace std;
 class recipient;
-
-
+class blood_bank;
 void dashboard()
 {
     int A_pos,A_neg,B_pos,B_neg,AB_pos,AB_neg,O_pos,O_neg;
@@ -26,7 +25,7 @@ class donor
     public:
     char blood_type;
     char rh;
-    friend void dashboard();
+    friend class blood_bank;
     void get_detail();
 };
 void donor::get_detail()
@@ -63,8 +62,16 @@ class recipient
     string blood_type;
     int amount_ml;
     public:
-    friend void dashboard();
+    friend class blood_bank;
+    
     void get_detail();
+};
+
+class blood_bank
+{
+    int A_pos,A_neg,B_pos,B_neg,AB_pos,AB_neg,O_pos,O_neg;
+    public:
+    friend dashboard();
 };
 
 int check_criteria_donor()
@@ -103,10 +110,11 @@ int main()
 {
     int choice;
     int x;
+    blood_bank d;
     vector<donor*> don;
     do
     {
-        
+        d.calulate();
         system("CLS");
         dashboard();
         cout<<"\nHOW CAN WE HELP YOU?";
@@ -131,7 +139,7 @@ int main()
                  }
                  getch();
             break;
-
+            
 
         
         default:
