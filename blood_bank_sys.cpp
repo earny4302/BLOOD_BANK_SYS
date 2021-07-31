@@ -3,52 +3,13 @@
 #include<vector>
 using namespace std;
 class recipient;
-int cal_A_pos()
-{
-    int a;
-    
-}
-int cal_A_neg()
-{
-
-}
-int cal_B_pos()
-{
-
-}
-int cal_B_neg()
-{
-
-}
-int cal_AB_pos()
-{
-
-}
-int cal_AB_neg()
-{
-
-}
-int cal_O_pos()
-{
-
-}
-int cal_O_neg()
-{
-
-}
 
 
 void dashboard()
 {
     int A_pos,A_neg,B_pos,B_neg,AB_pos,AB_neg,O_pos,O_neg;
-    A_pos=cal_A_pos();
-    A_neg=cal_A_neg();
-    B_pos=cal_B_pos();
-    B_neg=cal_B_neg();
-    AB_pos=cal_AB_pos();
-    AB_neg=cal_AB_neg();
-    O_pos=cal_O_pos();
-    O_neg=cal_O_neg();
+    
+    
 }
 class donor
 {
@@ -60,24 +21,42 @@ class donor
     int day;
     int month;
     int year;
-    string blood_type;
+    
     int amount_ml;
     public:
+    char blood_type;
+    char rh;
     friend void dashboard();
     void get_detail();
 };
 void donor::get_detail()
 {
-    cout<<"\nENTER NAME:-";
-    cin.
+    cout<<"\nENTER NAME:-\t";
+    cin.clear();
+    cin.sync();
+    getline(cin,name);
+    cout<<"\nENTER ADDRESS:-\t";
+    cin.clear();
+    cin.sync();
+    getline(cin,address);
+    cout<<"\nENTER YOUR ADDHAR:-\t";
+    cin>>addhar;
+    cout<<"\nENTER YOUR MOBILE NO.:-\t";
+    cin>>mobile_no;
+    cout<<"\nENTER YOUR BLOOD TYPE(A,B,AB,O):-\t";
+    cin>>blood_type;
+    cout<<"\nENTER YOUR RHESUS(+,-):-\t";
+    cin>>rh;
+    cout<<"\nENTER AMOUNT BLOOD DONATED(IN ML):-\t";
+    cin>>amount_ml;
 }
 class recipient
 {
     int no;
     string name;
     string address;
-    long int mobile_no;
-    long int addhar;
+    long long mobile_no;
+    long long addhar;
     int day;
     int month;
     int year;
@@ -123,9 +102,11 @@ int check_criteria_donor()
 int main()
 {
     int choice;
+    int x;
+    vector<donor*> don;
     do
     {
-        vector<donor*> don;
+        
         system("CLS");
         dashboard();
         cout<<"\nHOW CAN WE HELP YOU?";
@@ -133,16 +114,24 @@ int main()
         switch (choice)
         {
             case 1:
-            int x=check_criteria_donor();
+             x=check_criteria_donor();
             if(x==1)
             {
                 donor *d=new donor();
                 d->get_detail();
                 don.push_back(d);
             }
-                
             break;
+
             case 2:
+              for (auto& it : don) {
+  
+        
+                    cout << it->blood_type<<" "<<it->rh<<endl;
+                 }
+                 getch();
+            break;
+
 
         
         default:
@@ -152,5 +141,6 @@ int main()
         }
         
     }while(choice!=4);
+    don.clear();
     return 0;
 }
