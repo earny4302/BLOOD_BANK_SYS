@@ -19,34 +19,20 @@ class donor
     int amount_ml;
     public:
     char blood_type;
+
     char rh;
     friend class blood_bank;
     friend class transaction;
     friend void display();
     void get_detail();
-    int input(donor*);
+    int input();
 };
-int donor::input(donor*d)
+int donor::input()
 {
-       
-        ofstream file_obj;
- 
-    // Opening file in append mode
-    file_obj.open("donor.txt", ios::app);
- 
-    // Object of class contestant to input data in file
-    donor obj;
- 
-    // Feeding appropriate data in variables
-   
-    // Assigning data into object
-    obj.name =d->name;
-    obj.amount_ml = d->amount_ml;
-    obj.blood_type =d->blood_type;
-    obj.rh=d->rh;
- 
-    // Writing the object's data in file
-    file_obj.write((char*)&obj, sizeof(obj));
+    ofstream file1;    
+    file1.open("donor.dat", ios::app|ios::binary);
+   file1.write((char*)this,sizeof(*this));
+   file1.close();
  
   
  
@@ -59,7 +45,7 @@ void display()
     ifstream file_obj;
  
     // Opening file in input mode
-    file_obj.open("donor.txt", ios::in);
+    file_obj.open("donor.dat");
  
     // Object of class contestant to input data in file
     donor obj;
@@ -407,6 +393,7 @@ int main()
                     transaction *t=new transaction(0,d);
                     trans.push_back(t);
                     don.push_back(d);
+                    d->input();
                 }
                 else
                     cout<<"\n not fit";
