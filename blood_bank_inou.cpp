@@ -1,6 +1,7 @@
 #include<iostream>
 #include<conio.h>
 #include<vector>
+#include<fstream>
 using namespace std;
 class recipient;
 class blood_bank;
@@ -21,8 +22,62 @@ class donor
     char rh;
     friend class blood_bank;
     friend class transaction;
+    friend void display();
     void get_detail();
+    int input(donor*);
 };
+int donor::input(donor*d)
+{
+       
+        ofstream file_obj;
+ 
+    // Opening file in append mode
+    file_obj.open("donor.txt", ios::app);
+ 
+    // Object of class contestant to input data in file
+    donor obj;
+ 
+    // Feeding appropriate data in variables
+   
+    // Assigning data into object
+    obj.name =d->name;
+    obj.amount_ml = d->amount_ml;
+    obj.blood_type =d->blood_type;
+    obj.rh=d->rh;
+ 
+    // Writing the object's data in file
+    file_obj.write((char*)&obj, sizeof(obj));
+ 
+  
+ 
+    return 0;
+}
+void display()
+{
+    
+    // Object to read from file
+    ifstream file_obj;
+ 
+    // Opening file in input mode
+    file_obj.open("donor.txt", ios::in);
+ 
+    // Object of class contestant to input data in file
+    donor obj;
+ 
+    // Reading from file into object "obj"
+    file_obj.read((char*)&obj, sizeof(obj));
+ 
+  
+ 
+    // Checking till we have the feed
+    while (!file_obj.eof()) {
+        cout<<obj.name<<endl;
+        cout<<obj.amount_ml<<endl;
+        cout<<obj.blood_type<<endl;
+        cout<<obj.rh<<endl;
+
+    }
+}
 void donor::get_detail()
 {
     cout<<"\nENTER NAME:-\t";
@@ -389,6 +444,12 @@ int main()
                 break;
             case 4:
                 exit(0);
+                break;
+            case 5:
+                display();
+                getch();
+                break;
+            
         
             default:
                 cout<<"\nWRONG CHOICE";
