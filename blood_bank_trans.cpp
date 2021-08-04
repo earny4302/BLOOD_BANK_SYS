@@ -19,55 +19,11 @@ class donor
     int amount_ml;
     public:
     char blood_type;
-
     char rh;
     friend class blood_bank;
     friend class transaction;
-    friend void display();
     void get_detail();
-    int input();
-    void input(donor);
 };
-void donor::input(donor x)
-{   
-    blood_type=x.blood_type;
-
-}
-int donor::input()
-{
-    ofstream file1;    
-    file1.open("donor.txt", ios::app|ios::binary);
-   file1.write((char*)this,sizeof(*this));
-   file1.close();
- 
-  
- 
-    return 0;
-}
-void display()
-{
-    
-    // Object to read from file
-    ifstream file_obj;
- 
-    // Opening file in input mode
-    file_obj.open("donor.txt");
- 
-    // Object of class contestant to input data in file
-    donor obj;
- 
-    // Reading from file into object "obj"
-    file_obj.read((char*)&obj, sizeof(obj));
- 
-  
- 
-   vector<donor> people;
-donor temp;
-while (file_obj>> temp.name) {
-    people.push_back(temp);
-    cout<<temp.name;
-}
-}
 void donor::get_detail()
 {
     cout<<"\nENTER NAME:-\t";
@@ -136,7 +92,39 @@ class blood_bank
     void calculate(vector<donor*> d,vector<recipient*>r);
     friend void dashboard(blood_bank);
     int check(char,char,int);
+    void update();
 }d;
+void blood_bank::update()
+{
+    fstream file;
+    string name;
+    string address;
+    long long mobile_no;
+    long long addhar;
+    int day;
+    int month;
+    int year;
+    
+    int amount_ml;
+    
+    char blood_type;
+    char rh;
+    
+    file.open("transaction.txt", ios::in);
+    file >> name >> blood_type >> rh >> amount_ml  >> address;
+    while(!file.eof())
+    {
+        if(blood_type=='A'&&rh=='+')
+        {
+            A_pos+=amount_ml;
+            cout<<A_pos;
+            getch();
+            
+        }
+    file >> name >> blood_type >> rh >> amount_ml  >> address;
+    }
+    file.close();
+}
 int blood_bank::check(char bg, char rhe, int amount)
 {
     int blood_g;
@@ -240,20 +228,69 @@ class transaction
         rh=r->rh;
     }
     void show_details();
+    void insert();
+    void display();
 };
+void transaction::insert()
+{
+    
+    system("cls");
+    fstream file;
+  
+    file.open("transaction.txt", ios::app | ios::out);
+    file << " " << name << " " << blood_type << " " << rh<< " " << amount_ml<< address << "\n";
+    file.close();
+
+}
+void transaction::display()
+{
+  
+    system("cls");
+    fstream file;
+    int total = 1;
+    cout << "\n-------------------------------------------------------------------------------------------------------" << endl;
+    cout << "------------------------------------- Student Record Table --------------------------------------------" << endl;
+    file.open("transaction.txt", ios::in);
+    if (!file)
+    {
+        /* code */
+        cout << "\n\t\t\tNo Data Is Present...";
+        file.close();
+    }
+    else
+    {
+        file >> name >> blood_type >> rh >> amount_ml  >> address;
+        while (!file.eof())
+        {
+            cout << "\n\n\t\t\t Student No.: " << total++ << endl;
+            cout << "\t\t\t Student Name: " << name << endl;
+            cout << "\t\t\t Student Roll No.: " << blood_type << endl;
+            cout << "\t\t\t Student course: " << rh << endl;
+            cout << "\t\t\t Student Email Id.: " << amount_ml << endl;
+           // cout << "\t\t\t Student Contact No.: " << contact_no << endl;
+            cout << "\t\t\t Student Address: " << address << endl;
+           file >> name >> blood_type >> rh >> amount_ml  >> address;
+        }
+        if (total == 0)
+        {
+            cout << "\n\t\t\tNo Data Is Present...";
+        }
+    }
+    file.close();
+
+}
 void transaction::show_details()
 {
     
     cout<<"\n"<<type;
-    cout<<"\n"<<address;
-    cout<<"\n"<<mobile_no;
-    cout<<"\n"<<addhar;
-    cout<<"\n"<<day;
-    cout<<"\n"<<month;
-    cout<<"\n"<<year;
-    cout<<"\n"<<amount_ml;
-    cout<<"\n"<<blood_type;
-    cout<<"\n"<<rh;
+    cout<<"\nNAME:-"<<name;
+    cout<<"\nADDRESS:-"<<address;
+    cout<<"\nMOBILE NO.:-"<<mobile_no;
+    cout<<"\nADDHAR:- "<<addhar;
+    cout<<"\nDATE:-"<<day<<" "<<month<<" "<<year;
+    cout<<"\nBLOOD DONATED:-(in ml)"<<amount_ml;
+    cout<<"\nBLOOD TYPE:-"<<blood_type<<rh;
+
 }
 void blood_bank::calculate(vector<donor*> d,vector<recipient*>r)
 {
@@ -371,14 +408,12 @@ int main()
     int choice;
     int x;
     int check_re;
-    vector<donor*> don;
-    vector<recipient*> recep;
+    blood_bank b;
     vector<transaction*>trans;
     do
     {
         
         system("CLS");
-        d.calculate(don,recep);
         dashboard(d);
         cout<<"\nHOW CAN WE HELP YOU?";
         cout<<"\n1.REGISTER A DONOR:-\t";
@@ -395,9 +430,9 @@ int main()
                     donor *d=new donor();
                     d->get_detail();
                     transaction *t=new transaction(0,d);
-                    trans.push_back(t);
-                    don.push_back(d);
-                    d->input();
+                    t->insert();
+                    b.update();
+                    
                 }
                 else
                     cout<<"\n not fit";
@@ -418,16 +453,16 @@ int main()
                     recipient *receip=new recipient();
                     receip->get_detail(bg,rhe,amount);
                     transaction *t=new transaction(1,receip);
-                    trans.push_back(t);
-                    recep.push_back(receip);
                 }
                 else 
                     cout<<"\nNot Available";
                 break;
             
             case 3:
+            
                 for (auto& it : trans) 
                 {
+                    cout<<it<<endl;
                     it->show_details();
                     
                 }
@@ -437,10 +472,8 @@ int main()
                 exit(0);
                 break;
             case 5:
-                display();
-                getch();
+                trans.front()->display();
                 break;
-            
         
             default:
                 cout<<"\nWRONG CHOICE";
@@ -448,7 +481,6 @@ int main()
                 break;
         }
     }while(choice!=4);
-    don.clear();
-    recep.clear();
+  
     return 0;
 }

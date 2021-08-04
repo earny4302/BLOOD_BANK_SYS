@@ -19,57 +19,16 @@ class donor
     int amount_ml;
     public:
     char blood_type;
-
     char rh;
     friend class blood_bank;
     friend class transaction;
-    friend void display();
     void get_detail();
-    int input();
-    void input(donor);
 };
-void donor::input(donor x)
-{   
-    blood_type=x.blood_type;
-
-}
-int donor::input()
-{
-    ofstream file1;    
-    file1.open("donor.txt", ios::app|ios::binary);
-   file1.write((char*)this,sizeof(*this));
-   file1.close();
- 
-  
- 
-    return 0;
-}
-void display()
-{
-    
-    // Object to read from file
-    ifstream file_obj;
- 
-    // Opening file in input mode
-    file_obj.open("donor.txt");
- 
-    // Object of class contestant to input data in file
-    donor obj;
- 
-    // Reading from file into object "obj"
-    file_obj.read((char*)&obj, sizeof(obj));
- 
-  
- 
-   vector<donor> people;
-donor temp;
-while (file_obj>> temp.name) {
-    people.push_back(temp);
-    cout<<temp.name;
-}
-}
 void donor::get_detail()
 {
+    system("CLS");
+    cout << "\n-------------------------------------------------------------------------------------------------------" << endl;
+    cout << "------------------------------------- DONOR REGISTRATION ------------------------------------------------" << endl;
     cout<<"\nENTER NAME:-\t";
     cin.clear();
     cin.sync();
@@ -78,16 +37,33 @@ void donor::get_detail()
     cin.clear();
     cin.sync();
     getline(cin,address);
-    cout<<"\nENTER YOUR ADDHAR:-\t";
-    cin>>addhar;
-    cout<<"\nENTER YOUR MOBILE NO.:-\t";
-    cin>>mobile_no;
-    cout<<"\nENTER YOUR BLOOD TYPE(A,B,AB,O):-\t";
-    cin>>blood_type;
-    cout<<"\nENTER YOUR RHESUS(+,-):-\t";
-    cin>>rh;
+    do{
+        cout<<"\nENTER YOUR ADDHAR:-\t";
+        cin>>addhar;
+    }while(addhar>=10000000&&addhar<=99999999);
+    do{
+        cout<<"\nENTER YOUR MOBILE NO.:-\t";
+        cin>>mobile_no;
+    }while(mobile_no>=1000000000&&mobile_no<=9999999999);
+    do
+    {
+        cout<<"\nENTER DATE(DD>>MM>>YY):-\t";
+        cin>>day>>month>>year;
+        
+    } while ((day<1||day>31)&&(month<1||month>12));
+    
+    do{
+        cout<<"\nENTER YOUR BLOOD TYPE(A,B,AB,O):-\t";
+        cin>>blood_type;
+    }while(blood_type!='A'&&blood_type!='B'&&blood_type!='AB'&&blood_type!='O');
+    do
+    {
+        cout<<"\nENTER YOUR RHESUS(+,-):-\t";
+        cin>>rh;        
+    } while (rh!='+'&&rh!='-');
     cout<<"\nENTER AMOUNT BLOOD DONATED(IN ML):-\t";
     cin>>amount_ml;
+
 }
 class recipient
 {
@@ -130,13 +106,15 @@ void recipient::get_detail(char bg,char rhe,int amount)
 }
 class blood_bank
 {
-    int A_pos,A_neg,B_pos,B_neg,AB_pos,AB_neg,O_pos,O_neg;
+    int A_pos=0,A_neg,B_pos,B_neg,AB_pos,AB_neg,O_pos,O_neg;
     
     public:
     void calculate(vector<donor*> d,vector<recipient*>r);
     friend void dashboard(blood_bank);
     int check(char,char,int);
+    void out();
 }d;
+
 int blood_bank::check(char bg, char rhe, int amount)
 {
     int blood_g;
@@ -181,14 +159,16 @@ int blood_bank::check(char bg, char rhe, int amount)
 }
 void dashboard(blood_bank d)
 {   
-    cout<<"\nA_pos"<<d.A_pos;
-    cout<<"\nA_neg"<<d.A_neg;
-    cout<<"\nB_pos"<<d.B_pos;
-    cout<<"\nB_neg"<<d.B_neg;
-    cout<<"\nAB_pos"<<d.AB_pos;
-    cout<<"\nAB_neg"<<d.AB_neg;
-    cout<<"\nO_pos"<<d.O_pos;
-    cout<<"\nO_neg"<<d.O_neg;
+
+    cout<<"\n\n\t\t\tBLOOD AVAILABILITY:-";
+    cout<<"\n\n\t\t\tA+:-\t"<<d.A_pos;
+    cout<<"\n\t\t\tA-:-\t"<<d.A_neg;
+    cout<<"\n\t\t\tB+:-\t"<<d.B_pos;
+    cout<<"\n\t\t\tB-:-\t"<<d.B_neg;
+    cout<<"\n\t\t\tAB+:-\t"<<d.AB_pos;
+    cout<<"\n\t\t\tAB-:-\t"<<d.AB_neg;
+    cout<<"\n\t\t\tO+:-\t"<<d.O_pos;
+    cout<<"\n\t\t\tO-:-\t"<<d.O_neg;
 }
 class transaction
 {
@@ -203,6 +183,7 @@ class transaction
     
     int amount_ml;
     public:
+    void showdetails();
     char blood_type;
     char rh;
     transaction(int i,donor* d)
@@ -240,20 +221,31 @@ class transaction
         rh=r->rh;
     }
     void show_details();
+    void insert();
 };
+void transaction::insert()
+{
+    
+    system("cls");
+    fstream file;
+  
+    file.open("trans.txt", ios::app | ios::out);
+    file << " " << name << " " << blood_type << " " << rh<< " " << amount_ml<<" "<< address << "\n";
+    file.close();
+
+}
 void transaction::show_details()
 {
     
     cout<<"\n"<<type;
-    cout<<"\n"<<address;
-    cout<<"\n"<<mobile_no;
-    cout<<"\n"<<addhar;
-    cout<<"\n"<<day;
-    cout<<"\n"<<month;
-    cout<<"\n"<<year;
-    cout<<"\n"<<amount_ml;
-    cout<<"\n"<<blood_type;
-    cout<<"\n"<<rh;
+    cout<<"\nNAME:-"<<name;
+    cout<<"\nADDRESS:-"<<address;
+    cout<<"\nMOBILE NO.:-"<<mobile_no;
+    cout<<"\nADDHAR:- "<<addhar;
+    cout<<"\nDATE:-"<<day<<" "<<month<<" "<<year;
+    cout<<"\nBLOOD DONATED:-(in ml)"<<amount_ml;
+    cout<<"\nBLOOD TYPE:-"<<blood_type<<rh;
+
 }
 void blood_bank::calculate(vector<donor*> d,vector<recipient*>r)
 {
@@ -331,28 +323,67 @@ void blood_bank::calculate(vector<donor*> d,vector<recipient*>r)
     }
    
 }
+void transaction::showdetails()
+{
+    
+    system("cls");
+    fstream file;
+    int total = 1;
+    cout << "\n-------------------------------------------------------------------------------------------------------" << endl;
+    cout << "------------------------------------- TRANSACTION HISTORY --------------------------------------------" << endl;
+    file.open("trans.txt", ios::in);
+    if (!file)
+    {
+        /* code */
+        cout << "\n\t\t\tNo Data Is Present...";
+        file.close();
+    }
+    else
+    {
+        file >> name >> blood_type >> rh >> amount_ml>> address;
+        while (!file.eof())
+        {
+            cout << "\n\n\t\t\t Student No.: " << total++ << endl;
+            cout << "\t\t\t Student Name: " << name << endl;
+            cout << "\t\t\t Student Roll No.: " << blood_type << endl;
+            cout << "\t\t\t Student course: " << rh << endl;
+            cout << "\t\t\t Student Email Id.: " << amount_ml << endl;
+           
+            cout << "\t\t\t Student Address: " << address << endl;
+            file >> name >> blood_type >> rh >> amount_ml>> address;
+        }
+        if (total == 0)
+        {
+            cout << "\n\t\t\tNo Data Is Present...";
+        }
+    }
+    file.close();
+}
 
 int check_criteria_donor()
 {
+    system("CLS");
+    cout << "\n-------------------------------------------------------------------------------------------------------" << endl;
+    cout << "------------------------------------- CHECK ELIGIBILITY FOR DONOATION -----------------------------------" << endl;
     int age,weight,hemo,fit,STD;
     do{
-        cout<<"\nIS YOUR AGE IS BETWEEN 18 YEARS AND 65 YEARS:-(1-YES,2-NO)\t";
+        cout<<"\nIS YOUR AGE IS BETWEEN 18 YEARS AND 65 YEARS:-(1-YES,0-NO):-\t";
         cin>>age;
     }while(age!=0&&age!=1);
     do{
-        cout<<"\nIS YOUR WEIGHT MORE THAN 50 KG:-(1-YES,2-NO)\t";
+        cout<<"\nIS YOUR WEIGHT MORE THAN 50 KG:-(1-YES,0-NO):-\t";
         cin>>weight;
     }while(weight!=0&&weight!=1);
     do{
-        cout<<"\nIS YOUR HEMOGLOBIN IS GREATER THAN 12 g/dl:-(1-YES,2-NO)\t";
+        cout<<"\nIS YOUR HEMOGLOBIN IS GREATER THAN 12 g/dl:-(1-YES,0-NO):-\t";
         cin>>hemo;
     }while(hemo!=0&&hemo!=1);
     do{
-        cout<<"\nARE YOU FIT:-(1-YES,2-NO)\t";
+        cout<<"\nARE YOU FIT:-(1-YES,0-NO):-\t";
         cin>>fit;
     }while(fit!=0&&fit!=1);
     do{
-        cout<<"\nEVER CONTRACTED ANY STD:-(1-YES,2-NO)\t";
+        cout<<"\nEVER CONTRACTED ANY STD:-(1-YES,0-NO):-\t";
         cin>>STD;
     }while(STD!=0&&STD!=1);
     if(age==1 && weight==1 && hemo==1 &&  fit==1 && STD==0)
@@ -379,8 +410,10 @@ int main()
         
         system("CLS");
         d.calculate(don,recep);
+        cout << "\n-------------------------------------------------------------------------------------------------------" << endl;
+        cout << "------------------------------------- BLOOD BANK -------------------------------------------------------" << endl;
         dashboard(d);
-        cout<<"\nHOW CAN WE HELP YOU?";
+        cout<<"\n\n\nHOW CAN WE HELP YOU?";
         cout<<"\n1.REGISTER A DONOR:-\t";
         cout<<"\n2.REGISTER A RECIEPTIENT:-\t";
         cout<<"\n3.TRANSACTION:-\t";
@@ -396,8 +429,8 @@ int main()
                     d->get_detail();
                     transaction *t=new transaction(0,d);
                     trans.push_back(t);
+                    t->insert();
                     don.push_back(d);
-                    d->input();
                 }
                 else
                     cout<<"\n not fit";
@@ -426,21 +459,11 @@ int main()
                 break;
             
             case 3:
-                for (auto& it : trans) 
-                {
-                    it->show_details();
-                    
-                }
+                trans.front()->showdetails();
                 getch();
                 break;
             case 4:
                 exit(0);
-                break;
-            case 5:
-                display();
-                getch();
-                break;
-            
         
             default:
                 cout<<"\nWRONG CHOICE";

@@ -1,6 +1,7 @@
 #include<iostream>
 #include<conio.h>
 #include<vector>
+#include<fstream>
 using namespace std;
 class recipient;
 class blood_bank;
@@ -195,20 +196,31 @@ class transaction
         rh=r->rh;
     }
     void show_details();
+    void insert();
 };
+void transaction::insert()
+{
+    
+    system("cls");
+    fstream file;
+  
+    file.open("transaction.txt", ios::app | ios::out);
+    file << " " << name << " " << blood_type << " " << rh<< " " << amount_ml<< address << "\n";
+    file.close();
+
+}
 void transaction::show_details()
 {
     
     cout<<"\n"<<type;
-    cout<<"\n"<<address;
-    cout<<"\n"<<mobile_no;
-    cout<<"\n"<<addhar;
-    cout<<"\n"<<day;
-    cout<<"\n"<<month;
-    cout<<"\n"<<year;
-    cout<<"\n"<<amount_ml;
-    cout<<"\n"<<blood_type;
-    cout<<"\n"<<rh;
+    cout<<"\nNAME:-"<<name;
+    cout<<"\nADDRESS:-"<<address;
+    cout<<"\nMOBILE NO.:-"<<mobile_no;
+    cout<<"\nADDHAR:- "<<addhar;
+    cout<<"\nDATE:-"<<day<<" "<<month<<" "<<year;
+    cout<<"\nBLOOD DONATED:-(in ml)"<<amount_ml;
+    cout<<"\nBLOOD TYPE:-"<<blood_type<<rh;
+
 }
 void blood_bank::calculate(vector<donor*> d,vector<recipient*>r)
 {
@@ -382,6 +394,7 @@ int main()
             case 3:
                 for (auto& it : trans) 
                 {
+                    cout<<it<<endl;
                     it->show_details();
                     
                 }

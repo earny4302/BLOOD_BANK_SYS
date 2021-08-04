@@ -1,9 +1,10 @@
 #include <iostream>
+#include<conio.h>
 #include<string.h>
 using namespace std;
 class blood_bank
 {
-public:
+    public:
     static int bloodgroup[8];
     
 };
@@ -12,21 +13,23 @@ int blood_bank::bloodgroup[]={0,0,0,0,0,0,0,0};
 class admin
 {
     
-public:
+    public:
     
     void display();
     
     admin()
     {
-        char s[20]="Pra123";
+        char s[20]="Pri123";
         char str[20];
         cout<<"\nEnter password:";
         cin>>str;
         if(strcmp(s,str)==0)
-        {cout<<"welcome!!!"<<endl;
-            display();}
+        {
+            cout<<"\nWelcome!!!"<<endl;
+            display();
+        }
         else
-            cout<<"Please contact Suraj to become an admin"<<endl;
+            cout<<"Please contact red cross society, Indore to become an admin"<<endl;
         
     }
 };
@@ -43,6 +46,7 @@ void admin::display()
     cout<<"O -ve:"<<blood_bank::bloodgroup[5]<<endl;
     cout<<"B -ve:"<<blood_bank::bloodgroup[6]<<endl;
     cout<<"AB -ve:"<<blood_bank::bloodgroup[7]<<endl;
+    getch();
 }
 
 class patient
@@ -63,7 +67,7 @@ int patient::save()
 {
     int c,n;
     
-    cout<<"Enter your name:";
+    cout<<"\nEnter your name:-";
     cin>>name;
     
     cout<<"Enter type of blood group you are looking for:"<<endl;
@@ -78,6 +82,8 @@ int patient::save()
     cout<<"you will be donated with 1 blood packet"<<endl<<"Please login again to get 1 more blood packet"<<endl;
     
     show(c);
+    getch();
+    return 0;
 }
 
 void patient::show(int c)
@@ -324,6 +330,7 @@ int donor::save()
     
     if(ch=='Y'||ch=='y')
         donor::display();
+        return 0;
     
 }
 
@@ -369,6 +376,7 @@ int donor::display()
     }
     
     cout<<"Packets of blood:"<<x<<endl;
+    return 0;
     
 }
 
@@ -382,9 +390,9 @@ int main()
     
     while(c!=4)
     {
+        system("cls");
         
-        
-        cout<<"Enter 1 if you are the admin , \n 2 if you are a donor ,\n 3 if you are a patient or \n 4 if you want to exit:";
+        cout<<"Enter\n 1 if you are the admin , \n 2 if you are a donor ,\n 3 if you are a patient or \n 4 if you want to exit:";
         cin>>c;
         switch(c)
         {
