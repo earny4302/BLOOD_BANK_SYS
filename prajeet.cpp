@@ -60,7 +60,7 @@ class blood
 };
 int blood::check(int blt,int amount)
 {
-    cout<<"1";
+    
     if((blt>=0&&blt<8)&&bt[blt]>=amount)
     {
         return 1;
